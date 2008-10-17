@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  
+  Sample MSBuild file using Sandcastle.targets.
+  
+  Author: Anders Ljusberg (http://ljusberg.se/blogs/smorakning/)
+  
+-->
+<Project DefaultTargets="DocumentationAll" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <!-- Override the name of the help file here -->
+    <helpname Condition="!Exists('$(helpname)')">DEFAULT_HELP_NAME</helpname>
+    <!-- Ensure that a config type is set (Debug, Release, <custom>) -->
+    <configuration Condition="!Exists('$(configuration)')">Debug</configuration>
+    
+    <!-- Uncomment the following line if you want to use the Prototype format instead of the VS2005-like format -->
+    <!--<Presentation>Prototype</Presentation>-->
+    
+    <!-- If you want friendly HTM-file names, uncomment this row -->
+    <FilenameStyle>Friendly</FilenameStyle>
+    
+    <!-- If you want a separate file for the members, uncomment this row -->
+     <DocStyle>VS</DocStyle>
+
+	  
+  </PropertyGroup>
+
+  <!-- The Sandcastle.targets file contains the main part of the build script -->
+  <Import Project="lib\sandcastle\Sandcastle.targets"/>
+
+  <!-- All assemblies that you want to build documentation for -->
+  <ItemGroup>
+    <Assemblies Include="$(primaryexedll)"/>
+  </ItemGroup>
+
+  <!-- You may have to add some additional assemblies here 
+  Log4Net dll for exmaple
+  <ItemGroup>
+    <Dependencies Include="sandcastle.example\bin\$(Configuration)\com.mosso.cloudfs.dll"/>
+  </ItemGroup>
+  
+  -->
+
+  <!-- All documentation files you want to include -->
+  <ItemGroup>
+    <DocFiles Include="$(docxmlfile)"/>
+  </ItemGroup>
+
+</Project>

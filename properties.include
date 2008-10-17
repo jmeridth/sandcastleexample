@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project name="sandcastle.example.properties" xmlns="http://nant.sf.net/schemas/nant.xsd">
+  <property name="config" value="Release" />
+  <setenv name="BUILD_NUMBER" value="1.0.0.0" unless="${environment::variable-exists('BUILD_NUMBER')}"/>
+  <setenv name="DXROOT" value="C:\Program Files\Sandcastle\" unless="${environment::variable-exists('DXROOT')}"/>
+  <property name="build.number" value="${environment::get-variable('BUILD_NUMBER')}" if="${environment::variable-exists('BUILD_NUMBER')}" />
+
+  <property name="exe.dll.dir" value="sandcastle.example\bin\${config}"/>
+  <property name="unit.tests.dll.dir" value="sandcastle.example.tests\bin\${config}"/>
+  
+  <property name="build.dir" value="C:\build\${build.number}\" />
+  <property name="test.reports.dir" value="${build.dir}\test-reports" />
+  <property name="config.dir" value="${build.dir}\${config}" />
+  <property name="unit.tests.dir" value="${build.dir}\${config}\UnitTests" />
+
+  <property name="exe.dll" value="${config.dir}\sandcastle.example.exe" />
+  <property name="unit.test.dll" value="${unit.tests.dir}\sandcastle.example.tests.dll" />
+  
+  <property name="msbuild" value="${environment::get-variable('SYSTEMROOT')}/Microsoft.NET/Framework/v3.5/MSBuild.exe" />
+  <property name="sln.file" value="sandcastle.example.sln" />
+
+  <property name="deploy.dir" value="${build.dir}\deploy" />
+  <property name="deploy.src.dir" value="${deploy.dir}\src" />
+  <property name="deploy.bin.dir" value="${deploy.dir}\bin" />
+  <property name="deploy.docs.dir" value="${deploy.dir}\docs" />
+
+  <property name="doc.xml.file" value="sandcastle.example\bin\${config}\sandcastle.example.XML" />
+  <property name="sandcastle.exe.dir" value="C:\Program Files\Sandcastle" />
+  <property name="help.dir" value="Help" />
+  <property name="chm.file.name" value="sandcastle.example" />
+  <property name="zip.file.prefix" value="sandcastle.example" />
+</project>
+

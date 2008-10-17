@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project name="sandcastle.example" default="complete" xmlns="http://nant.sf.net/schemas/nant.xsd">
+  <include buildfile="properties.include" />
+
+  <target name="complete" depends="clean, compile, setup, test, deploy" description="Compile, Run Tests, Create Documentation and prepare for Deployment" />
+
+  <target name="clean" description="Deletes all generated folders and files to start with clean folder structure">
+	  <delete dir="${help.dir}" />
+	  <delete dir="${build.dir}" />
+	  <call target="clean.generated.doc.helper.files" />
+  </target>
+  
+  <target name="compile" description="Compiles debug solution">
+    <exec program="${msbuild}">
+      <arg value="${sln.file}" />
+      <arg value="/verbosity:minimal" />
+      <arg value="/p:Configuration=${config}" />
+      <arg value="/p:WarningLevel=0" />
+    </exec>
+  </target>
+  
+  <target name="setup" depends="compile">
+		<mkdir dir="${build.dir}" if="${not directory::exists(build.dir)}"/>
+		<mkdir dir="${deploy.dir}" if="${not directory::exists(deploy.dir)}"/>
+		<mkdir dir="${deploy.src.dir}" if="${not directory::exists(deploy.src.dir)}"/>
+		<mkdir dir="${deploy.bin.dir}" if="${not directory::exists(deploy.bin.dir)}"/>
+		<mkdir dir="${deploy.docs.dir}" if="${not directory::exists(deploy.docs.dir)}"/>
+		<mkdir dir="${test.reports.dir}" if="${not directory::exists(test.reports.dir)}"/>
+		<mkdir dir="${config.dir}" if="${not directory::exists(config.dir)}" />
+		<mkdir dir="${unit.tests.dir}" if="${not directory::exists(unit.tests.dir)}" />
+		<copy todir="${config.dir}">
+			<fileset basedir="${exe.dll.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		<copy todir="${unit.tests.dir}">
+			<fileset basedir="${unit.tests.dll.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+  </target>
+
+  <target name="test">
+    <exec program="nunit-console.exe" basedir="lib\nunit">
+      <arg value="${unit.test.dll}" />
+      <arg value="/xml:${test.reports.dir}\UnitTests.xml" />
+    </exec>
+  </target>
+
+  
+  <target name="deploy">
+    <call target="deploy.bin" />
+	  <call target="deploy.docs" />
+	  <call target="deploy.src" />
+  </target>
+  
+  <target name="deploy.src">
+    <zip zipfile="${deploy.src.dir}\${zip.file.prefix}.src_${build.number}.zip">
+      <fileset basedir="${directory::get-current-directory()}">
+		    <include name="${help.dir}/*.chm" />
+        <exclude name="temp/**" />
+        <exclude name="temp/**" />
+        <exclude name="TempConstants.cs" />
+        <exclude name="cloudfsviewer/**" />
+        <exclude name="obfuscateconstants/**" />
+        <exclude name="docs/**" />
+        <exclude name="${help.dir}/**" />
+        <exclude name="${build.dir}/**" />
+        <exclude name="${deploy.dir}/**" />
+        <exclude name=".svn/" />
+        <exclude name="*resharper*" />
+        <exclude name="*ReSharper*/**" />
+        <exclude name="*suo*" />
+        <exclude name="*.cache*" />
+		    <include name="**" />
+      </fileset>
+	    <fileset basedir="${help.dir}">
+		    <include name="${chm.file.name}.chm" />
+	    </fileset>
+    </zip>
+  </target>
+
+  <target name="deploy.bin">
+    <zip zipfile="${deploy.bin.dir}\${zip.file.prefix}.bin_${build.number}.zip">
+      <fileset basedir="${config.dir}">
+        <exclude name ="*.pdb" />
+        <exclude name ="*.xml" />
+        <exclude name ="UnitTests/**" />
+        <include name="**" />
+      </fileset>
+    </zip>
+  </target>
+
+  <target name="deploy.docs">
+    <property name="sandcastle.is.installed" value="true" />
+    <if test="${not directory::exists(sandcastle.exe.dir)}">
+      <property name="sandcastle.is.installed" value="false" />
+      <fail message="Sandcastle needs to be installed at ${sandcastle.exe.dir} to generate documentation, please download from http://www.microsoft.com/downloads/details.aspx?FamilyID=E82EA71D-DA89-42EE-A715-696E3A4873B2." />
+    </if>
+    <if test="${sandcastle.is.installed=='true'}">
+      <call target="deploy.docs.all" />
+    </if>
+  </target>
+	
+	<target name="deploy.docs.all" description="creates chm file and packages into zip file">
+		<call target="create.docs" />
+		<call target="package.docs" />
+	</target>	
+	
+	<!-- if this target fails, just change /verbosity:quiet to /verbosity:minimal or /verbosity:verbose -->
+	<target name="create.docs" depends="compile, setup">
+		<exec program="${msbuild}">
+	      <arg value="Documentation.proj" />
+	      <arg value="/verbosity:quiet" />
+	      <arg value="/target:Documentation" />
+	      <arg value="/p:configuration=${config}" />
+	      <arg value="/p:helpname=${chm.file.name}" />
+	      <arg value="/p:primaryexedll=${exe.dll}" />
+	      <arg value="/p:docxmlfile=${doc.xml.file}" />
+	    </exec>
+		<call target="clean.generated.doc.helper.files" />
+	</target>
+	
+	<target name="clean.generated.doc.helper.files">
+		<delete>
+		    <fileset>
+		        <include name="sandcastle.config" />
+		        <include name="reflection.org" />
+		        <include name="reflection.xml" />
+		        <include name="manifest.xml" />
+		        <include name="toc.xml" />
+		    </fileset>
+		</delete>
+	</target>
+	
+	<target name="package.docs">
+		<zip zipfile="${deploy.docs.dir}\${zip.file.prefix}.doc_${build.number}.zip">
+	      <fileset basedir="${help.dir}">
+	        <include name="**" />
+	      </fileset>
+	    </zip>
+	</target>
+</project>
