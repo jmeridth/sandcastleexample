@@ -8,7 +8,7 @@
   <property name="exe.dll.dir" value="sandcastle.example\bin\${config}"/>
   <property name="unit.tests.dll.dir" value="sandcastle.example.tests\bin\${config}"/>
   
-  <property name="build.dir" value="C:\build\${build.number}\" />
+  <property name="build.dir" value="build\${build.number}\" />
   <property name="test.reports.dir" value="${build.dir}\test-reports" />
   <property name="config.dir" value="${build.dir}\${config}" />
   <property name="unit.tests.dir" value="${build.dir}\${config}\UnitTests" />
