@@ -6,7 +6,7 @@ using sandcastle.example.service;
 namespace sandcastle.example.tests.service.EmailHandler_Specs
 {
     [TestFixture]
-    public class EmailHandlerTests
+    public class When_sending_an_email
     {
         private Operation operation;
         private EmailHandler emailHandler;
