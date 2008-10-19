@@ -27,6 +27,7 @@ namespace sandcastle.example
             try
             {
                 new EmailHandler(serviceOperation).Send();
+                Console.WriteLine("Email sent to " + serviceOperation.EmailAddress + " successfully.");
             }
             catch (Exception ex)
             {
