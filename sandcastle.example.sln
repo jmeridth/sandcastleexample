@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sandcastle.example", "sandcastle.example\sandcastle.example.csproj", "{506EB84C-BD6F-4876-BA51-E76DF9436601}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A791A784-BB14-471C-8B0C-A8E177E79E14}"
+	ProjectSection(SolutionItems) = preProject
+		build.bat = build.bat
+		Documentation.proj = Documentation.proj
+		properties.include = properties.include
+		sandcastle.example.build = sandcastle.example.build
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sandcastle.example.tests", "sandcastle.example.tests\sandcastle.example.tests.csproj", "{A0F0A4A3-F50F-4A74-BFE9-73A19F4BD7A9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{506EB84C-BD6F-4876-BA51-E76DF9436601}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{506EB84C-BD6F-4876-BA51-E76DF9436601}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{506EB84C-BD6F-4876-BA51-E76DF9436601}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{506EB84C-BD6F-4876-BA51-E76DF9436601}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0F0A4A3-F50F-4A74-BFE9-73A19F4BD7A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0F0A4A3-F50F-4A74-BFE9-73A19F4BD7A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0F0A4A3-F50F-4A74-BFE9-73A19F4BD7A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0F0A4A3-F50F-4A74-BFE9-73A19F4BD7A9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
