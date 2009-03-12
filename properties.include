@@ -26,6 +26,7 @@
 
   <property name="doc.xml.file" value="sandcastle.example\bin\${config}\sandcastle.example.XML" />
   <property name="sandcastle.exe.dir" value="C:\Program Files\Sandcastle" />
+  <property name="htmlhelpworkshop.dir" value="C:\Program Files\HTML Help Workshop" />
   <property name="help.dir" value="Help" />
   <property name="chm.file.name" value="sandcastle.example" />
   <property name="zip.file.prefix" value="sandcastle.example" />
